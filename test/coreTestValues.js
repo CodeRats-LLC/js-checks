@@ -1,16 +1,24 @@
+import { createProxy } from '../utils.js';
+
 const setupValues = () => {
 
     let undefVal,
         nullVal,
 
         stringVal,
+        emptyStringVal,
+        argsObjectVal,
+        emptyArgsObjectVal,
         numberVal,
+        zeroNumberVal,
         booleanVal,
 
         regexpVal,
         dateVal,
         arrayVal,
+        emptyArrayVal,
         objectVal,
+        emptyObjectVal,
 
         functionVal,
         asyncFunctionVal,
@@ -30,9 +38,13 @@ const setupValues = () => {
         weakMapVal,
         weakSetVal,
         arrayBufferVal,
+        emptyArrayBufferVal,
         dataViewVal,
+        emptyDataViewVal,
         promiseVal,
         proxyVal,
+
+        classVal,
 
         objValues;
 
@@ -41,12 +53,43 @@ const setupValues = () => {
     //  null
     nullVal = null;
 
-    //  Instance of Array
-    arrayVal = [1, 2, 3];
+    //  Instance of String
+    stringVal = 'bar';
+    //  Instance of an empty String
+    emptyStringVal = '';
+    //  Instance of an 'arguments' object
+    const argsCaptureFunc = function() {
+      argsObjectVal = arguments;
+    };
+    argsCaptureFunc(42);
+    //  Instance of an 'empty arguments' object
+    const emptyArgsCaptureFunc = function() {
+      emptyArgsObjectVal = arguments;
+    };
+    emptyArgsCaptureFunc();
+
+    //  Instance of Number
+    numberVal = 42;
+    //  Instance of Number that is set to 0
+    zeroNumberVal = 0;
     //  Instance of Boolean
     booleanVal = true;
+
+    //  Instance of RegExp
+    regexpVal = /foo/g;
     //  Instance of Date
     dateVal = new Date('Aug 23 1995');
+    //  Instance of Array
+    arrayVal = [1, 2, 3];
+    //  Instance of an empty Array
+    emptyArrayVal = [];
+    //  Instance of Object
+    objectVal = {
+    };
+    objectVal.foo = 'bar';
+    //  Instance of an empty Object
+    emptyObjectVal = {
+    };
 
     //  NB: Do *not* reformat this in any way. Some of the representation tests
     //  expect to see this in *exactly* this format.
@@ -62,20 +105,10 @@ const setupValues = () => {
     //  Error
     errorVal = new Error('There was an error');
 
-    //  invalid Date
-    invalidDateVal = new Date('fluffy');
     //  NaN
     nanVal = NaN;
-    //  Instance of Number
-    numberVal = 42;
-    //  Instance of Object
-    objectVal = {
-    };
-    objectVal.foo = 'bar';
-    //  Instance of RegExp
-    regexpVal = /foo/g;
-    //  Instance of String
-    stringVal = 'bar';
+    //  invalid Date
+    invalidDateVal = new Date('fluffy');
 
     //  Native Type
     nativeTypeVal = Array;
@@ -112,9 +145,13 @@ const setupValues = () => {
 
     //  ArrayBuffer
     arrayBufferVal = new ArrayBuffer(8);
+    //  empty ArrayBuffer
+    emptyArrayBufferVal = new ArrayBuffer(0);
 
     //  DataView
     dataViewVal = new DataView(new ArrayBuffer(2));
+    //  empty DataView
+    emptyDataViewVal = new DataView(new ArrayBuffer(0));
 
     //  Promise
     /* eslint-disable no-empty-function */
@@ -122,12 +159,19 @@ const setupValues = () => {
     /* eslint-enable no-empty-function */
 
     //  Proxy
-    proxyVal = new Proxy({goo: 'boo'}, {});
+    proxyVal = createProxy({goo: 'boo'}, {});
+
+    //  ES Class
+    classVal = class {
+      constructor() {
+      }
+    };
 
     objValues = {
       'undefined':                undefVal,               //  undefined
       'null':                     nullVal,                //  null
       'Array':                    arrayVal,               //  Array
+      'EmptyArray':               emptyArrayVal,          //  Array
       'Boolean':                  booleanVal,             //  Boolean
       'Date':                     dateVal,                //  Date
       'Function':                 functionVal,            //  Function
@@ -137,9 +181,14 @@ const setupValues = () => {
       'InvalidDate':              invalidDateVal,         //  not a Date
       'NaN':                      nanVal,                 //  NaN
       'Number':                   numberVal,              //  Number
+      'ZeroNumber':               zeroNumberVal,          //  Number
       'RegExp':                   regexpVal,              //  RegExp
       'Object':                   objectVal,              //  Object
+      'EmptyObject':              emptyObjectVal,         //  Object
       'String':                   stringVal,              //  String
+      'EmptyString':              emptyStringVal,         //  String
+      'Arguments':                argsObjectVal,          //  Arguments
+      'EmptyArguments':           emptyArgsObjectVal,     //  Arguments
 
       'NativeType':               nativeTypeVal,          //  NativeType
       'NativeFunction':           nativeFuncVal,          //  NativeFunc
@@ -150,9 +199,13 @@ const setupValues = () => {
       'WeakMap':                  weakMapVal,             //  WeakMap
       'WeakSet':                  weakSetVal,             //  WeakSet
       'ArrayBuffer':              arrayBufferVal,         //  ArrayBuffer
+      'EmptyArrayBuffer':         emptyArrayBufferVal,    //  ArrayBuffer
       'DataView':                 dataViewVal,            //  DataView
+      'EmptyDataView':            emptyDataViewVal,       //  DataView
       'Promise':                  promiseVal,             //  Promise
       'Proxy':                    proxyVal,               //  Proxy
+
+      'Class':                    classVal,               //  ES Class
     };
 
     return objValues;
@@ -168,6 +221,7 @@ const trueValues = () => {
       'undefined':                true,   //  undefined
       'null':                     true,   //  null
       'Array':                    true,   //  Array
+      'EmptyArray':               true,   //  Array
       'Boolean':                  true,   //  Boolean
       'Date':                     true,   //  Date
       'Function':                 true,   //  Function
@@ -177,9 +231,14 @@ const trueValues = () => {
       'InvalidDate':              true,   //  not a Date
       'NaN':                      true,   //  NaN
       'Number':                   true,   //  Number
+      'ZeroNumber':               true,   //  Number
       'RegExp':                   true,   //  RegExp
       'Object':                   true,   //  Object
+      'EmptyObject':              true,   //  Object
       'String':                   true,   //  String
+      'EmptyString':              true,   //  String
+      'Arguments':                true,   //  Arguments
+      'EmptyArguments':           true,   //  Arguments
 
       'NativeType':               true,   //  NativeType
       'NativeFunction':           true,   //  NativeFunc
@@ -190,9 +249,13 @@ const trueValues = () => {
       'WeakMap':                  true,   //  WeakMap
       'WeakSet':                  true,   //  WeakSet
       'ArrayBuffer':              true,   //  ArrayBuffer
+      'EmptyArrayBuffer':         true,   //  ArrayBuffer
       'DataView':                 true,   //  DataView
+      'EmptyDataView':            true,   //  DataView
       'Promise':                  true,   //  Promise
       'Proxy':                    true,   //  Proxy
+
+      'Class':                    true,   //  ES Class
     };
 
     return objValues;
@@ -208,6 +271,7 @@ const falseValues = () => {
       'undefined':                false,  //  undefined
       'null':                     false,  //  null
       'Array':                    false,  //  Array
+      'EmptyArray':               false,  //  Array
       'Boolean':                  false,  //  Boolean
       'Date':                     false,  //  Date
       'Function':                 false,  //  Function
@@ -217,9 +281,14 @@ const falseValues = () => {
       'InvalidDate':              false,  //  not a Date
       'NaN':                      false,  //  NaN
       'Number':                   false,  //  Number
+      'ZeroNumber':               false,  //  Number
       'RegExp':                   false,  //  RegExp
       'Object':                   false,  //  Object
+      'EmptyObject':              false,  //  Object
       'String':                   false,  //  String
+      'EmptyString':              false,  //  String
+      'Arguments':                false,  //  Arguments
+      'EmptyArguments':           false,  //  Arguments
 
       'NativeType':               false,  //  NativeType
       'NativeFunction':           false,  //  NativeFunc
@@ -230,9 +299,13 @@ const falseValues = () => {
       'WeakMap':                  false,  //  WeakMap
       'WeakSet':                  false,  //  WeakSet
       'ArrayBuffer':              false,  //  ArrayBuffer
+      'EmptyArrayBuffer':         false,  //  ArrayBuffer
       'DataView':                 false,  //  DataView
+      'EmptyDataView':            false,  //  DataView
       'Promise':                  false,  //  Promise
       'Proxy':                    false,  //  Proxy
+
+      'Class':                    false,  //  ES Class
     };
 
     return objValues;
