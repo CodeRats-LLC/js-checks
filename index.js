@@ -575,19 +575,19 @@ const isTrue = (aValue) => {
 
 const isTruthy = (aValue) => {
 
-    /**
-     * @method isTruthy
-     * @summary Return true if the argument is considered to be 'truthy',
-     *     according to JavaScript rules.
-     * @param {Object} aValue The value to test.
-     * @example Test to see if anObj is truthy:
-     *     <code>
-     *          if (isTruthy('hi')) { console.info('its true'); };
-     *     </code>
-     * @returns {Boolean} True if aValue is a 'truthy' value.
-     */
+  /**
+   * @method isTruthy
+   * @summary Return true if the argument is considered to be 'truthy',
+   *   according to JavaScript rules.
+   * @param {Object} aValue The value to test.
+   * @example Test to see if anObj is truthy:
+   *   <code>
+   *      if (isTruthy('hi')) { console.info('its true'); };
+   *   </code>
+   * @returns {Boolean} True if aValue is a 'truthy' value.
+   */
 
-    return !isFalsey(aValue);
+  return !isFalsey(aValue);
 };
 
 //  ------------------------------------------------------------------------
@@ -1082,21 +1082,21 @@ const isEmpty = (anObj) => {
 
 const ifEmpty = (aSuspectValue, aDefaultValue) => {
 
-/**
- * @method ifEmpty
- * @summary Returns either aSuspectValue or aDefaultValue based on the
- *   state of aSuspectValue. If aSuspectValue isEmpty() aDefaultValue
- *   is returned.
- * @param {Object} aSuspectValue The value to test.
- * @param {Object} aDefaultValue The value to return if test passes.
- * @example Set the value of theObj to 'Hi there', if anObj is empty:
- *   <code>
- *        theObj = ifEmpty(anObj, 'Hi there');
- *   </code>
- * @returns {Object} One of the two values provided.
- */
+  /**
+   * @method ifEmpty
+   * @summary Returns either aSuspectValue or aDefaultValue based on the
+   *   state of aSuspectValue. If aSuspectValue isEmpty() aDefaultValue
+   *   is returned.
+   * @param {Object} aSuspectValue The value to test.
+   * @param {Object} aDefaultValue The value to return if test passes.
+   * @example Set the value of theObj to 'Hi there', if anObj is empty:
+   *   <code>
+   *      theObj = ifEmpty(anObj, 'Hi there');
+   *   </code>
+   * @returns {Object} One of the two values provided.
+   */
 
-return isEmpty(aSuspectValue) ? aDefaultValue : aSuspectValue;
+  return isEmpty(aSuspectValue) ? aDefaultValue : aSuspectValue;
 };
 
 //  ------------------------------------------------------------------------
